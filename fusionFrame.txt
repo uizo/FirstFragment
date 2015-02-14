@@ -1,0 +1,144 @@
+package gui;
+
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.event.EventListenerList;
+import javax.swing.ImageIcon;
+
+import listener.UserInterfaceListener;
+
+public class GenerateFusionFrame extends JFrame{
+	
+	private JPanel panelImage;
+	private JPanel panelImageSubContainer;
+	private JPanel panelImage1;
+	private JPanel panelImage2;
+	private JLabel label1;
+	private JLabel label2;
+	private JPanel panelButton;
+	private JButton buttonFusionner;
+	private final EventListenerList listeners = new EventListenerList();
+
+	
+	public GenerateFusionFrame(){
+		initComponents();
+	}
+	
+	
+	 private void openFile(){
+	        JFileChooser fileChooser = new JFileChooser();
+	        if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+	            String path = fileChooser.getSelectedFile().getAbsolutePath();
+	            fireOpenImageAsked(path);
+	            
+	        }
+	    }
+	 public static BufferedImage resize(BufferedImage image, int width, int height) {
+		    BufferedImage bi = new BufferedImage(width, height, BufferedImage.TRANSLUCENT);
+		    Graphics2D g2d = (Graphics2D) bi.createGraphics();
+		    g2d.addRenderingHints(new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY));
+		    g2d.drawImage(image, 0, 0, width, height, null);
+		    g2d.dispose();
+		    return bi;
+		}
+	 
+	 private void fireOpenImageAsked(String path){
+	    	for(UserInterfaceListener listener : getUserInterfaceListener())
+	    		listener.openImageAsked(path);
+	    }
+	 private UserInterfaceListener[] getUserInterfaceListener(){
+	        return listeners.getListeners(UserInterfaceListener.class);
+	    }
+	    
+	
+	public void initComponents(){
+		
+		this.setMinimumSize(new Dimension(900,450));
+    	this.setSize(new Dimension(650,420));
+    	this.setLocation(100,40);
+    	this.setLayout(new BorderLayout());
+    	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    	this.setVisible(true);
+    	this.setLayout(new BorderLayout());
+    	this.setTitle("Fusion de deux images");
+    	panelImage = new JPanel();
+    	panelImageSubContainer = new JPanel();
+    	panelImage1 = new  JPanel();
+    	panelImage2 = new JPanel();
+    	panelButton = new JPanel();
+    	label1 = new JLabel("Click to add first image");
+    	label1.setSize(new Dimension(200, 200));
+    	label2 = new JLabel("Click to add second image");
+    	buttonFusionner = new JButton("Fusionner");
+
+    	
+    	this.add(panelImage, BorderLayout.CENTER);
+    	panelImage.setLayout(new FlowLayout());
+    	
+    	
+    	panelImage1.setBorder(BorderFactory.createLineBorder(Color.black));
+    	panelImage1.setMinimumSize(new Dimension(250,250));
+    	panelImage1.setVisible(true);
+    	panelImage2.setBorder(BorderFactory.createLineBorder(Color.black));
+    	
+    	panelImage.add(panelImage1);
+    	panelImage.add(panelImage2);
+    	
+    	panelImage1.add(label1);
+    	panelImage2.add(label2);
+		
+		this.add(panelButton, BorderLayout.SOUTH);
+		panelButton.add(buttonFusionner, BorderLayout.CENTER);
+		
+		
+		label1.addMouseListener(new MouseAdapter(){
+			 public void mouseClicked(MouseEvent arg0) {
+				 JFileChooser fc = new JFileChooser();
+	                int result = fc.showOpenDialog(null);
+	                if (result == JFileChooser.APPROVE_OPTION) {
+	                    File file = fc.getSelectedFile();
+	                    try {
+	                    	BufferedImage bi = ImageIO.read(file);
+	                    	bi = resize(bi, 400, 300);
+	                    	ImageIcon ic = new ImageIcon(bi);
+	                    	label1.setText("");
+	                    	label1.setIcon(ic);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }
+	        });
+		label2.addMouseListener(new MouseAdapter(){
+			 public void mouseClicked(MouseEvent arg0) {
+				 JFileChooser fc = new JFileChooser();
+	                int result = fc.showOpenDialog(null);
+	                if (result == JFileChooser.APPROVE_OPTION) {
+	                    File file = fc.getSelectedFile();
+	                    try {
+	                    	BufferedImage bi = ImageIO.read(file);
+	                    	bi = resize(bi, 400, 300);
+	                    	ImageIcon ic = new ImageIcon(bi);
+	                    	label2.setText("");
+	                    	label2.setIcon(ic);
+	                    } catch (IOException e) {
+	                        e.printStackTrace();
+	                    }
+	                }
+	            }
+	        });
+	}
+
+}
