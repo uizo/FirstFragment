@@ -118,7 +118,7 @@ public class GenerateFusionFrame extends JFrame{
 	                    } catch (IOException e) {
 	                        e.printStackTrace();
 	                    }
-	                }
+	                }		//This is a change for git (change 1)
 	            }
 	        });
 		label2.addMouseListener(new MouseAdapter(){
@@ -134,9 +134,9 @@ public class GenerateFusionFrame extends JFrame{
 	                    	label2.setText("");
 	                    	label2.setIcon(ic);
 	                    } catch (IOException e) {
-	                        e.printStackTrace();
+		                        e.printStackTrace();
 	                    }
-	                }
+	                }	//random comment (change 3 ; change 2 : a tab two lines up)
 	            }
 	        });
 	}
