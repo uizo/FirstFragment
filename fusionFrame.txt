@@ -82,7 +82,8 @@ public class GenerateFusionFrame extends JFrame{
     	label1.setSize(new Dimension(200, 200));
     	label2 = new JLabel("Click to add second image");
     	buttonFusionner = new JButton("Fusionner");
-
+	
+	//this comment was added from online repository
     	
     	this.add(panelImage, BorderLayout.CENTER);
     	panelImage.setLayout(new FlowLayout());
