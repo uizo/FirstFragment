@@ -84,6 +84,8 @@ public class GenerateFusionFrame extends JFrame{
     	buttonFusionner = new JButton("Fusionner");
 	
 	//this comment was added from online repository
+
+	//and now this one locally
     	
     	this.add(panelImage, BorderLayout.CENTER);
     	panelImage.setLayout(new FlowLayout());
